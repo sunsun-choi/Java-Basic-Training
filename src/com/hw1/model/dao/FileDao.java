@@ -30,22 +30,22 @@ public class FileDao {//클래스영역시작
 		// 값을 Scanner로 입력 받고 해당 입력 값이 “exit”일 경우 반복문 빠져나감
 		// 아닐 경우 sb에 추가
 			System.out.print("파일에 저장할 내용을 반복해서 입력하십시오(\"exit\"을 입력하면 내용 입력 끝) :");
-			String fileString = sc.nextLine();
-			if(fileString.equals("exit")) { break; }
+			String content = sc.nextLine();
+			if(content.equals("exit")) { break; }
 			
-			sb = sb.append(fileString + "\n");
+			sb.append(content).append("\n");  //append 는 자기 자신을 반환
 			
 		}
 		// “저장하시겠습니까? (y/n)”
 		// 입력 받은 값이 대문자이든 소문자이든 상관없이 “y”이면,
 		// 저장할 파일명을 입력 받음
 		System.out.print("저장하시겠습니까? (y/n)");
-		String answer = sc.nextLine();
+		String isConfirm = sc.nextLine();
 		
-		if(answer.equals("y")||answer.equals("Y")) {
+		if(isConfirm.equals("y")||isConfirm.equals("Y")) {
 			System.out.print("저장할 파일명을 입력해주세요 : ");
 			String fileName = sc.nextLine();
-			File saveFile = new File(fileName + ".txt");
+			File targetFile = new File(fileName + ".txt");
 			
 		
 		
@@ -55,9 +55,9 @@ public class FileDao {//클래스영역시작
 		try { // BufferedWriter와 FileWriter 스트림 사용
 		// “입력받은 파일명.txt” 파일에 해당 sb 데이터출력
 		// “입력받은 파일명.txt 파일에 성공적으로 저장하였습니다.” 콘솔창 출력
-			saveFile.createNewFile();
+			targetFile.createNewFile();
 			
-			fw = new FileWriter(saveFile);
+			fw = new FileWriter(targetFile);
 			bw = new BufferedWriter(fw);
 			
 			bw.write(sb.toString());
@@ -97,12 +97,13 @@ public class FileDao {//클래스영역시작
 			br = new BufferedReader(fr);
 			
 			while(true) {
-				String a = br.readLine();
-				if(a.equals(null)) {break;}
+				String lineData = br.readLine();
+				if(lineData == null) {break;}
 				
-				System.out.println(br.readLine());
+				System.out.println(lineData);
 			}
 			
+
 			
 			
 		}catch( FileNotFoundException e ) {
@@ -118,6 +119,7 @@ public class FileDao {//클래스영역시작
 				br.close();
 				fr.close();
 			}catch( IOException e ) {e.printStackTrace();}
+			
 		}
 	}
 	
@@ -129,21 +131,57 @@ public class FileDao {//클래스영역시작
 		// “수정 할 파일명 : “
 		// 파일명을 입력받아 BufferedReader와 BufferedWriter, FileReader와 FileWriter
 		// 스트림 사용
+		System.out.println("수정 할 파일명 : ");
+		String fileName = sc.nextLine();
+		
+		BufferedReader br = null;
+		BufferedWriter bw = null;
+		
 		try {
+			br = new BufferedReader(new FileReader(fileName + ".txt"));
+			bw = new BufferedWriter(new FileWriter(fileName + ".txt", true));
+							
 		// 반복문을 통해 해당 파일의 내용을 readLine()메소드를 통해 콘솔에 출력
 		// “파일에 추가할 내용을 입력하시오 : “
 		// 사용자가 “exit”을 입력하기 전까지 내용을 StringBuilder에 담기
 		// “변경된 내용을 파일에 추가하시겠습니까? (y/n)”
 		// 입력 받은 값이 대문자이든 소문자이든 상관없이 “y”이면,
 		// “입력받은 파일명.txt 파일의의 내용이 변경되었습니다.”
+		
+		while(true) {
+			String a = br.readLine();
+			if(a == null) {break;}
+			
+			System.out.println(a);
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		while(true) {
+			System.out.println("파일에 추가할 내용을 입력하시오 : ");
+			String additionalContent = sc.nextLine();
+			if(additionalContent.equals("exit")) { break; }
+			sb.append(additionalContent).append("\n");
+			
+		}
+		
+		System.out.println("변경된 내용을 파일에 추가하시겠습니까? (y/n)");
+		String isConfirm = sc.nextLine();
+		if(isConfirm.equals("y")||isConfirm.equals("Y")) {
+			bw.write(sb.toString());
+			System.out.println("입력받은 파일명.txt 파일의의 내용이 변경되었습니다.");
+		}
+			
 		}catch( FileNotFoundException e ) {
 		e.printStackTrace();
 		}catch( IOException e ) {
 		e.printStackTrace();
 		}finally {
 		// 열었던 스트림 close
+			try {
+				bw.close();
+				br.close();
+			}catch( IOException e ) {e.printStackTrace();}
 		}
-		
 	}
 
 }//클래스영역종료
