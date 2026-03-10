@@ -2,7 +2,7 @@ package com.hw2.run;
 
 import com.hw2.model.vo.Book;
 
-public class BookTesst {//클래스 영역 시작
+public class BookTest {//클래스 영역 시작
 
 	public static void main(String[] args) {//메소드 영역 시작
 		
@@ -19,7 +19,7 @@ public class BookTesst {//클래스 영역 시작
 		//setter 를 이용해 값을 수정
 		b1.setTitle("DoIt! 자바프로그래밍입문");
 		b1.setPrice(25000);
-		b1.setDiscontRate(0.1);
+		b1.setDiscountRate(0.1);
 		b1.setAuthor("박은종");
 		
 		//수정된 내용 출력
