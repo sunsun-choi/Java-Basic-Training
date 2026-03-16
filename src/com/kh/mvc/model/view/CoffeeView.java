@@ -15,33 +15,33 @@ public class CoffeeView {//클래스영역시작
     
     //메인매뉴
 	public void mainManu() {
+		ArrayList<COFFEE> cafeMenu = cc.cafeMenu();
 		//메뉴 반복출력
 		while(true) {
+			int count = 1;
 			System.out.println("~~★~~☆~고양이 카페~☆~~★~~");
 			System.out.println("~~☆메뉴를 골라주세요☆~~");
-			System.out.println("★ 1. 아이스 아메리카노(고소한맛)");
-			System.out.println("★ 2. 아이스 아메리카노(산미)");
-			System.out.println("★ 3. 아이스 카페라떼");
-			System.out.println("★ 4. 아이스 바닐라라떼");
-			System.out.println("★ 5. 아이스 카라멜마끼야또");
-			System.out.println("★ 6. 고양이 간식");
-			System.out.println("★ 7. 주문 수정");
-			System.out.println("★ 8. 결 제");
+			for(COFFEE menu : cafeMenu) {
+			System.out.println("★ "+ count +". "+menu.getMenuName() );  //장바구니계산방식수정
+			count++;
+			}
+			System.out.println("★ 88. 주문 수정");
+			System.out.println("★ 99. 결 제");
 			System.out.print("번호 :");
 			
 			int menu = sc.nextInt();
 			sc.nextLine();
 			
-			switch(menu) {
-			case 1 : case 2 : case 3 : 
-			case 4 : case 5 : 
-			case 6 : 
+			if(menu < 88 && menu > 0 ) {
 				String result = cc.addCart(menu);
 				System.out.println(result + "(이)가 카트에 담겼습니다.");
+				continue;}
+			
+			switch(menu) {
+			
+			case 88 : removeCart(); 
 				break;
-			case 7 : removeCart(); 
-				break;
-			case 8 : pay();
+			case 99 : pay();
 				break;
 			case 1234 :  adminMenu();
 				break;
@@ -172,11 +172,11 @@ public class CoffeeView {//클래스영역시작
 				System.out.println(num+". "+a);
 				num++;
 			}
-			System.out.println("0. 홈으로 돌아가기");
+			System.out.println("99. 홈으로 돌아가기");
 			System.out.print("삭제할 메뉴 번호 : ");
 			int removeMenu = sc.nextInt();
 			sc.nextLine();
-			if(removeMenu == 0) {return;}
+			if(removeMenu == 99) {return;}
 			
 			String removemenu = cartlist.get(removeMenu-1).getMenuName();
 			int result = cc.removeCart(removeMenu);
@@ -209,6 +209,7 @@ public class CoffeeView {//클래스영역시작
 		System.out.println("결제수단 선택");
 		System.out.println("1.K pay");
 		System.out.println("2.기프티콘");
+		System.out.println("99. 홈으로 돌아가기");
 		int num = sc.nextInt();
 		sc.nextLine();
 		switch(num) {
@@ -217,6 +218,7 @@ public class CoffeeView {//클래스영역시작
 			System.out.println("결제가 정상 처리되었습니다. 즐거운 시간 되세요!\n");
 			orderNum++;
 			break;
+		case 99 : return;
 		default : 
 			System.out.println("없는 메뉴를 입력했습니다. 다시 입력해 주세요.");
 		}

@@ -23,6 +23,12 @@ public class CoffeeController {//클래스 영역시작
 		list.add(new COFFEE("고양이 간식", 3000, 
 				"신선한 참치의 풍미가 가득! 고양이들의 입맛을 단숨에 사로잡는 마성의 간식"));
 	}
+	
+	//카페메뉴 키오스크로 보내기
+	public ArrayList<COFFEE> cafeMenu(){
+		return list;
+	}
+	
 	//관리자-메뉴추가
 	public int addMenu(String menuName, int price, String desc) {
 		for(int i = 0; i < list.size(); i++) {
